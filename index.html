@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALSP</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%}
+body{
+ background-image:url("fondo");background-size:cover;background-position:center;
+ background-attachment:fixed;font-family:Arial,sans-serif;color:white;
+ overflow-x:hidden;transition:background-color .25s,color .25s
+}
+html::-webkit-scrollbar{display:none}
+h1{text-align:center;font-size:42px;margin:25px 10px;text-shadow:0 0 10px black}
+.lista{
+ width:90%;max-width:1100px;height:500px;margin:0 auto 30px;padding:10px;
+ overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#777 transparent
+}
+.lista::-webkit-scrollbar{width:6px}
+.lista::-webkit-scrollbar-thumb{background:#777;border-radius:10px}
+.nivel{
+ width:100%;min-height:100px;display:flex;align-items:center;gap:20px;
+ padding:10px 15px;margin-bottom:10px;background:rgba(0,0,0,.65);
+ border:2px solid transparent;border-radius:8px;
+ transition:background-color .25s,color .25s,border-color .15s
+}
+.nivel:hover{border-color:#238cff}
+.nivel h2{margin:0;font-size:24px;white-space:nowrap}
+.nivel>a{
+ order:-1;width:200px;height:80px;flex-shrink:0;position:relative;display:block
+}
+.nivel>a img{width:100%;height:100%;object-fit:cover;border-radius:5px;transition:.15s}
+.nivel>a::after{
+ content:"▶";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+ font-size:30px;color:white;opacity:0;transition:.15s;text-shadow:0 0 8px black
+}
+.nivel>a:hover img{filter:brightness(.55)}
+.nivel>a:hover::after{opacity:1}
+.oculto{display:none!important}
+.barra-controles{
+ width:90%;max-width:1100px;margin:0 auto 16px;display:flex;
+ align-items:center;justify-content:center;gap:10px;flex-wrap:wrap
+}
+.boton-control,#buscador,#selector-boton{
+ font:inherit;padding:10px 14px;border:1px solid #777;border-radius:9px;
+ background:#222;color:white
+}
+#buscador{flex:1;min-width:140px}
+#selector-contenedor{position:relative}
+#selector-boton{cursor:pointer;min-width:190px}
+#opciones-selector{
+ position:absolute;top:calc(100% + 6px);left:0;z-index:100;width:240px;
+ max-height:220px;overflow-y:auto;padding:5px;border:1px solid #777;
+ border-radius:10px;background:#222;box-shadow:0 8px 20px #0005
+}
+#opciones-selector button{
+ display:block;width:100%;padding:11px;text-align:left;color:white;
+ background:transparent;border:0;border-radius:6px;cursor:pointer
+}
+#opciones-selector button:hover,#opciones-selector button:focus{background:#444}
+body.tema-claro{background-image:none;background-color:#f2f2f2;color:#111}
+body.tema-claro h1{text-shadow:none}
+body.tema-claro .nivel{background:#fff;border-color:#ddd;color:#111}
+body.tema-claro .boton-control,body.tema-claro #buscador,
+body.tema-claro #selector-boton,body.tema-claro #opciones-selector{
+ background:#fff;color:#111;border-color:#bbb
+}
+body.tema-claro #opciones-selector button{color:#111}
+body.tema-claro #opciones-selector button:hover{background:#eee}
+@media(max-width:700px){
+ h1{font-size:30px;margin-top:18px;margin-bottom:18px}
+ .lista{width:95%;height:450px;padding:7px}
+ .nivel{min-height:80px;gap:10px;padding:7px;border-radius:7px}
+ .nivel>a{width:120px;height:60px}
+ .nivel h2{font-size:17px;white-space:normal;line-height:1.15}
+ .nivel>a::after{font-size:22px}
+}
+@media(max-width:420px){
+ h1{font-size:24px}
+ .lista{width:97%;height:420px}
+ .nivel{gap:8px;padding:6px}
+ .nivel>a{width:95px;height:52px}
+ .nivel h2{font-size:15px}
+ .nivel>a::after{font-size:18px}
+ .barra-controles{width:95%}
+ #selector-boton{min-width:150px}
+}
+</style>
+</head>
+<body>
+<h1>ALSP</h1>
+
+<div class="barra-controles">
+ <div id="selector-contenedor">
+  <button id="selector-boton" type="button" aria-expanded="false"
+  aria-controls="opciones-selector">Version 4 - Actual ▾</button>
+  <div id="opciones-selector" class="oculto">
+   <button type="button" data-version="version4">Version 4 - Actual</button>
+   <button type="button" data-version="version3">Version 3</button>
+   <button type="button" data-version="version2">Version 2</button>
+   <button type="button" data-version="version1">Version 1</button>
+   <button type="button" data-version="extended">📖 Legacy 📖</button>
+   <button type="button" data-version="alsp">ALSP · All Level Space Waves</button>
+  </div>
+ </div>
+ <input id="buscador" type="search" placeholder="Buscar nivel..." aria-label="Buscar nivel">
+ <button id="tema-boton" class="boton-control" type="button" aria-label="Cambiar tema">☀️</button>
+</div>
+<div class="barra de controles">
+  <button id="endless-wr-boton">Endless wr</button>
+ </div>
+
+
+<!-- VERSION 4 -->
+<div id="version4" class="lista">
+ <div class="nivel"><h2>#1 Level 20 World 2</h2><a href="https://www.youtube.com/watch?v=Yc0eDFtzYig" target="_blank" rel="noopener noreferrer"><img src="1" alt="Level 20 World 2"></a></div>
+ <div class="nivel"><h2>#2 Level 20 World 3</h2><a href="https://www.youtube.com/watch?v=Wer7807atYs" target="_blank" rel="noopener noreferrer"><img src="2" alt="Level 20 World 3"></a></div>
+ <div class="nivel"><h2>#3 Level 13 World 3</h2><a href="https://www.youtube.com/watch?v=O5k-WvwB4c4&t=59s" target="_blank" rel="noopener noreferrer"><img src="3" alt="Level 13 World 3"></a></div>
+ <div class="nivel"><h2>#4 Level 39</h2><a href="https://www.youtube.com/watch?v=eevVq9P57y0" target="_blank" rel="noopener noreferrer"><img src="4" alt="Level 39"></a></div>
+ <div class="nivel"><h2>#5 Fangs</h2><a href="https://www.youtube.com/watch?v=Jiwv_4EHiu0" target="_blank" rel="noopener noreferrer"><img src="5" alt="Fangs"></a></div>
+ <div class="nivel"><h2>#6 Level 36</h2><a href="https://www.youtube.com/watch?v=q-7xmdk-fdM" target="_blank" rel="noopener noreferrer"><img src="6" alt="Level 36"></a></div>
+ <div class="nivel"><h2>#7 Deep Down</h2><a href="https://www.youtube.com/watch?v=LqhRWYDma70&t=180s" target="_blank" rel="noopener noreferrer"><img src="7" alt="Deep Down"></a></div>
+ <div class="nivel"><h2>#8 Level 32</h2><a href="https://www.youtube.com/watch?v=YmreAOH5vuk" target="_blank" rel="noopener noreferrer"><img src="8" alt="Level 32"></a></div>
+ <div class="nivel"><h2>#9 Level 37</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=198s" target="_blank" rel="noopener noreferrer"><img src="9" alt="Level 37"></a></div>
+ <div class="nivel"><h2>#10 Level 38</h2><a href="https://www.youtube.com/watch?v=AaspL0kqjT0" target="_blank" rel="noopener noreferrer"><img src="10" alt="Level 38"></a></div>
+</div>
+
+<!-- VERSION 3 -->
+<div id="version3" class="lista oculto">
+ <div class="nivel"><h2>#1 Level 20 World 2</h2><a href="https://www.youtube.com/watch?v=Yc0eDFtzYig" target="_blank" rel="noopener noreferrer"><img src="1" alt="Level 20 World 2"></a></div>
+ <div class="nivel"><h2>#2 Level 39</h2><a href="https://www.youtube.com/watch?v=eevVq9P57y0" target="_blank" rel="noopener noreferrer"><img src="4" alt="Level 39"></a></div>
+ <div class="nivel"><h2>#3 Fangs</h2><a href="https://www.youtube.com/watch?v=Jiwv_4EHiu0" target="_blank" rel="noopener noreferrer"><img src="5" alt="Fangs"></a></div>
+ <div class="nivel"><h2>#4 Level 36</h2><a href="https://www.youtube.com/watch?v=q-7xmdk-fdM" target="_blank" rel="noopener noreferrer"><img src="6" alt="Level 36"></a></div>
+ <div class="nivel"><h2>#5 Deep Down</h2><a href="https://www.youtube.com/watch?v=LqhRWYDma70&t=180s" target="_blank" rel="noopener noreferrer"><img src="7" alt="Deep Down"></a></div>
+ <div class="nivel"><h2>#6 Level 32</h2><a href="https://www.youtube.com/watch?v=YmreAOH5vuk" target="_blank" rel="noopener noreferrer"><img src="8" alt="Level 32"></a></div>
+ <div class="nivel"><h2>#7 Level 37</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=198s" target="_blank" rel="noopener noreferrer"><img src="9" alt="Level 37"></a></div>
+ <div class="nivel"><h2>#8 Level 38</h2><a href="https://www.youtube.com/watch?v=AaspL0kqjT0" target="_blank" rel="noopener noreferrer"><img src="10" alt="Level 38"></a></div>
+ <div class="nivel"><h2>#9 Level 34</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=111s" target="_blank" rel="noopener noreferrer"><img src="11" alt="Level 34"></a></div>
+ <div class="nivel"><h2>#10 Level 28</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=208s" target="_blank" rel="noopener noreferrer"><img src="12" alt="Level 28"></a></div>
+</div>
+
+<!-- VERSION 2 -->
+<div id="version2" class="lista oculto">
+ <div class="nivel"><h2>#1 Level 20 World 2</h2><a href="https://www.youtube.com/watch?v=Yc0eDFtzYig" target="_blank" rel="noopener noreferrer"><img src="1" alt="Level 20 World 2"></a></div>
+ <div class="nivel"><h2>#2 Level 39</h2><a href="https://www.youtube.com/watch?v=eevVq9P57y0" target="_blank" rel="noopener noreferrer"><img src="4" alt="Level 39"></a></div>
+ <div class="nivel"><h2>#3 Level 36</h2><a href="https://www.youtube.com/watch?v=q-7xmdk-fdM" target="_blank" rel="noopener noreferrer"><img src="6" alt="Level 36"></a></div>
+ <div class="nivel"><h2>#4 Level 32</h2><a href="https://www.youtube.com/watch?v=YmreAOH5vuk" target="_blank" rel="noopener noreferrer"><img src="8" alt="Level 32"></a></div>
+ <div class="nivel"><h2>#5 Level 37</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=198s" target="_blank" rel="noopener noreferrer"><img src="9" alt="Level 37"></a></div>
+ <div class="nivel"><h2>#6 Level 38</h2><a href="https://www.youtube.com/watch?v=AaspL0kqjT0" target="_blank" rel="noopener noreferrer"><img src="10" alt="Level 38"></a></div>
+ <div class="nivel"><h2>#7 Level 34</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=111s" target="_blank" rel="noopener noreferrer"><img src="11" alt="Level 34"></a></div>
+ <div class="nivel"><h2>#8 Level 28</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=208s" target="_blank" rel="noopener noreferrer"><img src="12" alt="Level 28"></a></div>
+ <div class="nivel"><h2>#9 Level 30</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=256s" target="_blank" rel="noopener noreferrer"><img src="13" alt="Level 30"></a></div>
+ <div class="nivel"><h2>#10 Level 29</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=232s" target="_blank" rel="noopener noreferrer"><img src="14" alt="Level 29"></a></div>
+</div>
+
+<!-- VERSION 1 -->
+<div id="version1" class="lista oculto">
+ <div class="nivel"><h2>#1 Level 39</h2><a href="https://www.youtube.com/watch?v=eevVq9P57y0" target="_blank" rel="noopener noreferrer"><img src="4" alt="Level 39"></a></div>
+ <div class="nivel"><h2>#2 Level 36</h2><a href="https://www.youtube.com/watch?v=q-7xmdk-fdM" target="_blank" rel="noopener noreferrer"><img src="6" alt="Level 36"></a></div>
+ <div class="nivel"><h2>#3 Level 32</h2><a href="https://www.youtube.com/watch?v=YmreAOH5vuk" target="_blank" rel="noopener noreferrer"><img src="8" alt="Level 32"></a></div>
+ <div class="nivel"><h2>#4 Level 37</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=198s" target="_blank" rel="noopener noreferrer"><img src="9" alt="Level 37"></a></div>
+ <div class="nivel"><h2>#5 Level 38</h2><a href="https://www.youtube.com/watch?v=AaspL0kqjT0" target="_blank" rel="noopener noreferrer"><img src="10" alt="Level 38"></a></div>
+ <div class="nivel"><h2>#6 Level 34</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=111s" target="_blank" rel="noopener noreferrer"><img src="11" alt="Level 34"></a></div>
+ <div class="nivel"><h2>#7 Level 28</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=208s" target="_blank" rel="noopener noreferrer"><img src="12" alt="Level 28"></a></div>
+ <div class="nivel"><h2>#8 Level 30</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=256s" target="_blank" rel="noopener noreferrer"><img src="13" alt="Level 30"></a></div>
+ <div class="nivel"><h2>#9 Level 29</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=232s" target="_blank" rel="noopener noreferrer"><img src="14" alt="Level 29"></a></div>
+ <div class="nivel"><h2>#10 Level 26</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=136s" target="_blank" rel="noopener noreferrer"><img src="15" alt="Level 26"></a></div>
+</div>
+
+<!-- LEGACY / EXTENDED LIST -->
+<div id="extended" class="lista oculto">
+ <div class="nivel"><h2>#1 Level 20 World 2</h2><a href="https://www.youtube.com/watch?v=Yc0eDFtzYig" target="_blank" rel="noopener noreferrer"><img src="1" alt="Level 20 World 2"></a></div>
+ <div class="nivel"><h2>#2 Level 20 World 3</h2><a href="https://www.youtube.com/watch?v=Wer7807atYs" target="_blank" rel="noopener noreferrer"><img src="2" alt="Level 20 World 3"></a></div>
+ <div class="nivel"><h2>#3 Level 13 World 3</h2><a href="https://www.youtube.com/watch?v=O5k-WvwB4c4&t=59s" target="_blank" rel="noopener noreferrer"><img src="3" alt="Level 13 World 3"></a></div>
+ <div class="nivel"><h2>#4 Level 39</h2><a href="https://www.youtube.com/watch?v=eevVq9P57y0" target="_blank" rel="noopener noreferrer"><img src="4" alt="Level 39"></a></div>
+ <div class="nivel"><h2>#5 Fangs</h2><a href="https://www.youtube.com/watch?v=Jiwv_4EHiu0" target="_blank" rel="noopener noreferrer"><img src="5" alt="Fangs"></a></div>
+ <div class="nivel"><h2>#6 Level 36</h2><a href="https://www.youtube.com/watch?v=q-7xmdk-fdM" target="_blank" rel="noopener noreferrer"><img src="6" alt="Level 36"></a></div>
+ <div class="nivel"><h2>#7 Deep Down</h2><a href="https://www.youtube.com/watch?v=LqhRWYDma70&t=180s" target="_blank" rel="noopener noreferrer"><img src="7" alt="Deep Down"></a></div>
+ <div class="nivel"><h2>#8 Level 32</h2><a href="https://www.youtube.com/watch?v=YmreAOH5vuk" target="_blank" rel="noopener noreferrer"><img src="8" alt="Level 32"></a></div>
+ <div class="nivel"><h2>#9 Level 37</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=198s" target="_blank" rel="noopener noreferrer"><img src="9" alt="Level 37"></a></div>
+ <div class="nivel"><h2>#10 Level 38</h2><a href="https://www.youtube.com/watch?v=AaspL0kqjT0" target="_blank" rel="noopener noreferrer"><img src="10" alt="Level 38"></a></div>
+ <div class="nivel"><h2>#11 Level 34</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=111s" target="_blank" rel="noopener noreferrer"><img src="11" alt="Level 34"></a></div>
+ <div class="nivel"><h2>#12 Level 28</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=208s" target="_blank" rel="noopener noreferrer"><img src="12" alt="Level 28"></a></div>
+ <div class="nivel"><h2>#13 Level 30</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=256s" target="_blank" rel="noopener noreferrer"><img src="13" alt="Level 30"></a></div>
+ <div class="nivel"><h2>#14 Level 29</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=232s" target="_blank" rel="noopener noreferrer"><img src="14" alt="Level 29"></a></div>
+ <div class="nivel"><h2>#15 Level 26</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=136s" target="_blank" rel="noopener noreferrer"><img src="15" alt="Level 26"></a></div>
+</div>
+
+<!-- ALSP: LOS 80 NIVELES EN UNA SOLA LISTA CONTINUA -->
+<div id="alsp" class="lista oculto">
+ <div class="nivel"><h2>#1 Level 20 World 2</h2><a href="https://www.youtube.com/watch?v=Yc0eDFtzYig" target="_blank" rel="noopener noreferrer"><img src="1" alt="Level 20 World 2"></a></div>
+ <div class="nivel"><h2>#2 Level 20 World 3</h2><a href="https://www.youtube.com/watch?v=Wer7807atYs" target="_blank" rel="noopener noreferrer"><img src="2" alt="Level 20 World 3"></a></div>
+ <div class="nivel"><h2>#3 Level 13 World 3</h2><a href="https://www.youtube.com/watch?v=O5k-WvwB4c4&t=59s" target="_blank" rel="noopener noreferrer"><img src="3" alt="Level 13 World 3"></a></div>
+ <div class="nivel"><h2>#4 Level 39</h2><a href="https://www.youtube.com/watch?v=eevVq9P57y0" target="_blank" rel="noopener noreferrer"><img src="4" alt="Level 39"></a></div>
+ <div class="nivel"><h2>#5 Fangs</h2><a href="https://www.youtube.com/watch?v=Jiwv_4EHiu0" target="_blank" rel="noopener noreferrer"><img src="5" alt="Fangs"></a></div>
+ <div class="nivel"><h2>#6 Level 36</h2><a href="https://www.youtube.com/watch?v=q-7xmdk-fdM" target="_blank" rel="noopener noreferrer"><img src="6" alt="Level 36"></a></div>
+ <div class="nivel"><h2>#7 Deep Down</h2><a href="https://www.youtube.com/watch?v=LqhRWYDma70&t=180s" target="_blank" rel="noopener noreferrer"><img src="7" alt="Deep Down"></a></div>
+ <div class="nivel"><h2>#8 Level 32</h2><a href="https://www.youtube.com/watch?v=YmreAOH5vuk" target="_blank" rel="noopener noreferrer"><img src="8" alt="Level 32"></a></div>
+ <div class="nivel"><h2>#9 Level 37</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=198s" target="_blank" rel="noopener noreferrer"><img src="9" alt="Level 37"></a></div>
+ <div class="nivel"><h2>#10 Level 38</h2><a href="https://www.youtube.com/watch?v=AaspL0kqjT0" target="_blank" rel="noopener noreferrer"><img src="10" alt="Level 38"></a></div>
+ <div class="nivel"><h2>#11 Level 34</h2><a href="https://www.youtube.com/watch?v=X-xqLyHbpqg&t=111s" target="_blank" rel="noopener noreferrer"><img src="11" alt="Level 34"></a></div>
+ <div class="nivel"><h2>#12 Level 28</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=208s" target="_blank" rel="noopener noreferrer"><img src="12" alt="Level 28"></a></div>
+ <div class="nivel"><h2>#13 Level 30</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=256s" target="_blank" rel="noopener noreferrer"><img src="13" alt="Level 30"></a></div>
+ <div class="nivel"><h2>#14 Level 29</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=232s" target="_blank" rel="noopener noreferrer"><img src="14" alt="Level 29"></a></div>
+ <div class="nivel"><h2>#15 Level 26</h2><a href="https://www.youtube.com/watch?v=brTEePbbbi8&t=136s" target="_blank" rel="noopener noreferrer"><img src="15" alt="Level 26"></a></div>
+ <div class="nivel"><h2>#16 Nivel 17 — Mundo 1 👑</h2></div>
+ <div class="nivel"><h2>#17 Nivel 19 — Mundo 1 🆕</h2></div>
+ <div class="nivel"><h2>#18 Nivel 14 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#19 Nivel 18 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#20 Nivel 16 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#21 Nivel 11 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#22 Nivel 15 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#23 Sala de Pruebas — Mundo Especial</h2></div>
+ <div class="nivel"><h2>#24 Nivel 33 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#25 Nivel 12 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#26 Ruinas — Mundo Especial</h2></div>
+ <div class="nivel"><h2>#27 SHH — Mundo Especial</h2></div>
+ <div class="nivel"><h2>#28 Nivel 35 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#29 Nivel 31 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#30 Nivel 25 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#31 Nivel 27 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#32 Nivel 13 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#33 Nivel 10 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#34 Nivel 6 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#35 Nivel 9 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#36 Nivel 3 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#37 Nivel 10 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#38 Nivel 7 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#39 Nivel 5 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#40 Nivel 8 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#41 Nivel 4 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#42 Nivel 1 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#43 Nivel 2 — Mundo 3</h2></div>
+ <div class="nivel"><h2>#44 Nivel 24 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#45 Nivel 21 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#46 Nivel 12 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#47 Nivel 14 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#48 Nivel 15 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#49 Nivel 18 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#50 Nivel 16 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#51 Nivel 19 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#52 Nivel 9 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#53 Nivel 22 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#54 Nivel 7 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#55 Nivel 8 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#56 Nivel 6 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#57 Nivel 23 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#58 Nivel 5 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#59 Nivel 3 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#60 Nivel 4 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#61 Nivel 2 — Mundo 1</h2></div>
+ <div class="nivel"><h2>#62 Nivel 13 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#63 Nivel 3 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#64 Nivel 6 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#65 Nivel 17 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#66 Nivel 18 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#67 Nivel 1 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#68 Nivel 14 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#69 Nivel 7 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#70 Nivel 15 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#71 Nivel 19 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#72 Nivel 16 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#73 Nivel 11 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#74 Nivel 9 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#75 Nivel 4 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#76 Nivel 10 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#77 Nivel 12 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#78 Nivel 8 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#79 Nivel 5 — Mundo 2</h2></div>
+ <div class="nivel"><h2>#80 Nivel 2 — Mundo 2</h2></div>
+</div>
+
+<script>
+(() => {
+ const selectorBoton=document.getElementById("selector-boton");
+ const opcionesSelector=document.getElementById("opciones-selector");
+ const selectorContenedor=document.getElementById("selector-contenedor");
+ const buscador=document.getElementById("buscador");
+ const temaBoton=document.getElementById("tema-boton");
+ let versionActual="version4";
+
+ function cerrarSelector(){
+  opcionesSelector.classList.add("oculto");
+  selectorBoton.setAttribute("aria-expanded","false");
+ }
+
+ function cambiarVersion(version,nombre){
+  const listaSeleccionada=document.getElementById(version);
+  if(!listaSeleccionada)return;
+  document.querySelectorAll(".lista").forEach(lista=>lista.classList.add("oculto"));
+  listaSeleccionada.classList.remove("oculto");
+  versionActual=version;
+  selectorBoton.textContent=nombre+" ▾";
+  buscador.value="";
+  listaSeleccionada.querySelectorAll(".nivel").forEach(nivel=>nivel.classList.remove("oculto"));
+  listaSeleccionada.scrollTop=0;
+  cerrarSelector();
+ }
+
+ selectorBoton.addEventListener("click",()=>{
+  const abrir=opcionesSelector.classList.contains("oculto");
+  opcionesSelector.classList.toggle("oculto",!abrir);
+  selectorBoton.setAttribute("aria-expanded",String(abrir));
+ });
+
+ opcionesSelector.querySelectorAll("button[data-version]").forEach(boton=>{
+  boton.addEventListener("click",()=>{
+   cambiarVersion(boton.dataset.version,boton.textContent.trim());
+  });
+ });
+
+ document.addEventListener("click",evento=>{
+  if(!selectorContenedor.contains(evento.target))cerrarSelector();
+ });
+
+ document.addEventListener("keydown",evento=>{
+  if(evento.key==="Escape")cerrarSelector();
+ });
+
+ buscador.addEventListener("input",()=>{
+  const consulta=buscador.value.trim().toLocaleLowerCase("es");
+  const lista=document.getElementById(versionActual);
+  lista.querySelectorAll(".nivel").forEach(nivel=>{
+   const texto=nivel.textContent.toLocaleLowerCase("es");
+   nivel.classList.toggle("oculto",!texto.includes(consulta));
+  });
+ });
+
+ function aplicarTema(claro){
+  document.body.classList.toggle("tema-claro",claro);
+  document.body.classList.toggle("tema-oscuro",!claro);
+  temaBoton.textContent=claro?"🌙":"☀️";
+  temaBoton.setAttribute("aria-label",claro?"Activar tema oscuro":"Activar tema claro");
+  temaBoton.title=claro?"Activar tema oscuro":"Activar tema claro";
+ }
+
+ let temaClaro=false;
+ try{
+  temaClaro=localStorage.getItem("alsp-tema")==="claro";
+ }catch(error){}
+
+ aplicarTema(temaClaro);
+
+ temaBoton.addEventListener("click",()=>{
+  temaClaro=!temaClaro;
+  aplicarTema(temaClaro);
+  try{
+   localStorage.setItem("alsp-tema",temaClaro?"claro":"oscuro");
+  }catch(error){}
+ });
+
+ cambiarVersion("version4","Version 4 - Actual");
+})();
+</script>
+<div class="nota-fondo">
+  📝 Nota:alsp significa all levels space waves
+</div>
+</body>
+</html>
